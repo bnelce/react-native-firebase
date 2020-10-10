@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './styles';
 import { firebase } from '../../firebase/config'
+//import auth from '@react-native-firebase/auth';
+
+
 
 export default function HomeScreen(props) {
 
@@ -30,6 +33,18 @@ export default function HomeScreen(props) {
                 }
             )
     }, [])
+
+    const onLogoutButtonPress = () => {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log('User signed out!');
+            //navigation.navigate('Login');
+
+          }).catch(function(error) {
+            // An error happened.
+            console.log(error)
+          });    
+    }
 
     const onAddButtonPress = () => {
         if (entityText && entityText.length > 0) {
@@ -66,15 +81,15 @@ export default function HomeScreen(props) {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Add new entity'
+                    placeholder='Adicionar nova entidade'
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setEntityText(text)}
                     value={entityText}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
-                <TouchableOpacity style={styles.button} onPress={onAddButtonPress}>
-                    <Text style={styles.buttonText}>Add</Text>
+                <TouchableOpacity style={styles.button} onPress={onLogoutButtonPress}>
+                    <Text style={styles.buttonText}>Novo</Text>
                 </TouchableOpacity>
             </View>
             { entities && (
